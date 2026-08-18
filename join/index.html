@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirigiendo a OliveHills...</title>
+    <script>
+        window.onload = function() {
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            
+            // Reemplaza con los IDs reales de la Play Store y App Store cuando la publiques
+            var playStoreUrl = "https://play.google.com/store/apps/details?id=com.example.streak_app";
+            var appStoreUrl = "https://apps.apple.com/app/id0000000000";
+
+            if (/android/i.test(userAgent)) {
+                window.location.href = playStoreUrl;
+            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                window.location.href = appStoreUrl;
+            } else {
+                // Si es PC, podrías llevar a tu web principal o mostrar un mensaje
+                document.getElementById("message").innerText = "Abre este enlace desde tu móvil para unirte a la intención en OliveHills.";
+            }
+        };
+    </script>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #121212; color: white; text-align: center; padding: 20px;}
+    </style>
+</head>
+<body>
+    <h2 id="message">Redirigiendo a OliveHills...</h2>
+</body>
+</html>
