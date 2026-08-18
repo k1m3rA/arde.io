@@ -4,7 +4,7 @@
     "details": [
       {
         "appID": "TEAMID.com.example.streakApp",
-        "paths": ["/olivehills/*"]
+        "paths": ["/olivehills-web/*"]
       }
     ]
   }
