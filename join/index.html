@@ -3,30 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirigiendo a OliveHills...</title>
-    <script>
-        window.onload = function() {
-            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            
-            // Reemplaza con los IDs reales de la Play Store y App Store cuando la publiques
-            var playStoreUrl = "https://play.google.com/store/apps/details?id=com.example.streak_app";
-            var appStoreUrl = "https://apps.apple.com/app/id0000000000";
-
-            if (/android/i.test(userAgent)) {
-                window.location.href = playStoreUrl;
-            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                window.location.href = appStoreUrl;
-            } else {
-                // Si es PC, podrías llevar a tu web principal o mostrar un mensaje
-                document.getElementById("message").innerText = "Abre este enlace desde tu móvil para unirte a la intención en OliveHills.";
-            }
-        };
-    </script>
+    <title>Uniéndote a la intención — Arde</title>
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #121212; color: white; text-align: center; padding: 20px;}
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #0f0f0f;
+            color: white;
+            text-align: center;
+            padding: 24px;
+        }
+        .card {
+            background: #1c1c1e;
+            border-radius: 20px;
+            padding: 40px 32px;
+            max-width: 360px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+        .icon { font-size: 48px; margin-bottom: 16px; }
+        h1 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+        p { font-size: 15px; color: #888; line-height: 1.5; margin-bottom: 24px; }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            margin-bottom: 12px;
+        }
+        .btn-primary { background: #ff6b35; color: white; }
+        .btn-secondary { background: #2c2c2e; color: #aaa; font-size: 14px; }
+        .spinner {
+            width: 36px; height: 36px;
+            border: 3px solid #333;
+            border-top-color: #ff6b35;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <h2 id="message">Redirigiendo a OliveHills...</h2>
+    <div class="card">
+        <div class="spinner" id="spinner"></div>
+        <div class="icon" id="icon" style="display:none">🔥</div>
+        <h1 id="title">Abriendo Arde...</h1>
+        <p id="message">Espera un momento, intentando abrir la app.</p>
+        <a id="storeBtn" class="btn btn-primary" style="display:none" href="#">Descargar Arde</a>
+        <a id="openBtn" class="btn btn-secondary" style="display:none" href="#">Abrir enlace manualmente</a>
+    </div>
+
+    <script>
+        (function () {
+            var params = new URLSearchParams(window.location.search);
+            var id      = params.get('id')      || '';
+            var titulo  = params.get('titulo')  || '';
+            var tipo    = params.get('tipo')    || '';
+            var roomId  = params.get('roomId')  || '';
+
+            var deepLink   = window.location.href;  // el mismo HTTPS URL activa App Links si la app está instalada
+            var playStore  = 'https://play.google.com/store/apps/details?id=com.kimera.arde';
+            var appStore   = 'https://apps.apple.com/app/id0000000000'; // actualiza con tu ID real
+
+            var ua = navigator.userAgent || navigator.vendor || window.opera;
+            var isAndroid = /android/i.test(ua);
+            var isIOS     = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+
+            function showFallback() {
+                document.getElementById('spinner').style.display = 'none';
+                document.getElementById('icon').style.display = 'block';
+                document.getElementById('title').innerText = 'Instala Arde para continuar';
+                document.getElementById('message').innerText = titulo
+                    ? 'Alguien te ha invitado a unirte a "' + decodeURIComponent(titulo) + '".'
+                    : 'Descarga la app para unirte a esta intención compartida.';
+
+                var storeBtn = document.getElementById('storeBtn');
+                storeBtn.style.display = 'block';
+
+                if (isAndroid) {
+                    storeBtn.href = playStore;
+                    storeBtn.innerText = '📲 Descargar en Google Play';
+                } else if (isIOS) {
+                    storeBtn.href = appStore;
+                    storeBtn.innerText = '📲 Descargar en App Store';
+                } else {
+                    storeBtn.href = playStore;
+                    storeBtn.innerText = '📲 Descargar Arde';
+                }
+
+                var openBtn = document.getElementById('openBtn');
+                openBtn.style.display = 'block';
+                openBtn.href = deepLink;
+                openBtn.innerText = 'Ya tengo la app instalada →';
+            }
+
+            // En móvil: intenta abrir la app via App Link.
+            // Si no abre en 2.5s (app no instalada), muestra el botón de la tienda.
+            if (isAndroid || isIOS) {
+                var fallbackTimer = setTimeout(showFallback, 2500);
+
+                // El App Link se activa cuando la página se carga con la URL correcta.
+                // Como estamos ya en esa URL, el sistema ya lo habrá intentado.
+                // Si el usuario sigue aquí tras 2.5s, la app no está instalada.
+                window.addEventListener('pagehide', function () {
+                    clearTimeout(fallbackTimer);
+                });
+            } else {
+                // Escritorio: mostrar mensaje directamente
+                showFallback();
+            }
+        })();
+    </script>
 </body>
 </html>
