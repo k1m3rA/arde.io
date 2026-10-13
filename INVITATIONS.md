@@ -15,8 +15,12 @@ Los esquemas personalizados no prueban la identidad de la app; pueden ser
 registrados por otra app. No equivalen a enlaces HTTPS verificados.
 
 Ficha Android confirmada: https://play.google.com/store/apps/details?id=com.kimera.arde&hl=es
-La huella actual de assetlinks.json NO se ha cotejado con Play App Signing.
-No se modifica ni se despliega una huella sin verificarla. El archivo de este
+Miguel confirmó en respuesta directa al certificado Play App Signing la huella
+`4D:06:89:31:44:F7:70:DC:72:C7:56:7D:C2:BC:55:95:07:BA:67:FE:16:9B:6E:3C:4B:09:51:B8:74:32:FC:20`.
+La rama incluye solo esa huella para com.kimera.arde. La raíz publicada conserva
+C4:B5:AD:F1:4A:4E:3D:04:F3:D3:F2:41:4C:B5:FA:73:CC:E0:EE:8A:9D:1F:41:35:07:08:35:F6:35:B5:B9:3F,
+que no coincide con la firma Play confirmada. El JSON de esta rama es el candidato
+para la raíz: no se ha desplegado ni cambiado el repo del sitio raíz. El archivo de este
 repo bajo /arde.io/.well-known NO sustituye a
 https://k1m3ra.github.io/.well-known/assetlinks.json (repo de sitio raíz).
 
