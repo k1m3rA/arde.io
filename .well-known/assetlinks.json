@@ -1,9 +1,14 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.kimera.arde",
-    "sha256_cert_fingerprints":
-    ["C4:B5:AD:F1:4A:4E:3D:04:F3:D3:F2:41:4C:B5:FA:73:CC:E0:EE:8A:9D:1F:41:35:07:08:35:F6:35:B5:B9:3F"]
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.kimera.arde",
+      "sha256_cert_fingerprints": [
+        "4D:06:89:31:44:F7:70:DC:72:C7:56:7D:C2:BC:55:95:07:BA:67:FE:16:9B:6E:3C:4B:09:51:B8:74:32:FC:20"
+      ]
+    }
   }
-}]
+]
