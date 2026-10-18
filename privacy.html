@@ -23,31 +23,45 @@
 </head>
 <body>
     <h1>Política de Privacidad de Arde</h1>
-    <p><em>Última actualización: 28 de agosto de 2026</em></p>
-    
+    <p><em>Última actualización: 18 de octubre de 2026</em></p>
+
     <p>En Arde, respetamos y protegemos tu privacidad. Esta Política de Privacidad describe cómo recopilamos, utilizamos y compartimos tu información cuando utilizas nuestra aplicación móvil ("Arde").</p>
 
-    <h2>1. Recopilación y uso de la información</h2>
-    <p>Arde está diseñada pensando en la privacidad. <strong>No recopilamos, almacenamos ni procesamos tu información personal en servidores centralizados.</strong></p>
-    <p>Toda la información generada en la aplicación (como intenciones, rachas, nombres y registros de actividades) se <strong>almacena de forma local</strong> en tu dispositivo.</p>
+    <h2>1. Qué datos maneja Arde y dónde se guardan</h2>
+    <p>Arde está diseñada pensando en la privacidad. <strong>No necesitas crear una cuenta ni registrarte</strong>: la aplicación no pide ni recopila tu nombre real, tu correo electrónico ni ningún otro dato identificativo.</p>
+    <p>La primera vez que la usas, la aplicación genera en tu dispositivo un identificador aleatorio (UUID) que te distingue internamente, y te pide un alias. Ese alias es lo único que ven los demás participantes de las intenciones que compartes.</p>
+    <p>Toda la información que generas en la aplicación (intenciones, rachas, participantes y registros de actividades) se <strong>almacena de forma local</strong> en tu dispositivo. Las claves de cifrado de tus intenciones se guardan en el almacenamiento seguro del propio sistema operativo.</p>
 
     <h2>2. Permisos requeridos</h2>
     <p>Para funcionar correctamente, la aplicación requiere los siguientes permisos de tu dispositivo:</p>
     <ul>
-        <li><strong>Cámara:</strong> Solicitamos acceso a la cámara de tu dispositivo de forma estricta y exclusiva para escanear códigos QR que permiten emparejar tu dispositivo con el de otro usuario. Las imágenes capturadas por la cámara no se guardan ni se transmiten a ningún servidor.</li>
-        <li><strong>Acceso a Internet:</strong> Es necesario para realizar la conexión punto a punto (P2P) entre los dispositivos.</li>
+        <li><strong>Cámara:</strong> se usa exclusivamente para escanear códigos QR de invitación. Las imágenes no se guardan ni se transmiten a ningún servidor.</li>
+        <li><strong>Acceso a Internet:</strong> es necesario para sincronizar las intenciones compartidas a través de nuestro servidor buzón (ver el punto 3).</li>
+        <li><strong>Notificaciones y alarmas:</strong> se usan para los recordatorios de tus rachas e intenciones. Estos recordatorios se generan en tu dispositivo y no implican el envío de datos fuera de él.</li>
     </ul>
 
-    <h2>3. Sincronización P2P (Peer-to-Peer)</h2>
-    <p>Cuando decides compartir una intención con otro usuario utilizando nuestra función de emparejamiento, Arde establece una conexión segura directa (WebRTC) entre tu dispositivo y el de tu compañero. La información compartida viaja de forma cifrada directamente entre ambos dispositivos y <strong>no se almacena</strong> en ninguna base de datos externa ni en la nube. Utilizamos un servidor de señalización únicamente para facilitar el encuentro inicial entre los dispositivos, pero este servidor no almacena ni ve el contenido de tus datos.</p>
+    <h2>3. Sincronización entre participantes (servidor buzón)</h2>
+    <p>Cuando compartes una intención, la sincronización con los demás participantes pasa por un <strong>servidor buzón</strong> (relay) que operamos sobre el proveedor de alojamiento Render:</p>
+    <ol>
+        <li>Tu aplicación <strong>cifra en tu propio dispositivo</strong> los cambios de cada intención con <strong>AES-256-GCM</strong>, utilizando una clave única por intención que se genera y permanece en tu dispositivo.</li>
+        <li>Solo el contenido ya cifrado viaja al servidor buzón, que lo guarda <strong>temporalmente en memoria</strong> (sin base de datos) para entregarlo al resto de participantes cuando se conecten.</li>
+        <li>Los datos cifrados se eliminan cuando los participantes los han recibido y, en cualquier caso, las salas sin actividad <strong>expiran a los 60 minutos</strong>. Si el servidor se reinicia, todo lo que guarda en memoria desaparece.</li>
+    </ol>
+    <p>El servidor buzón <strong>no puede leer el contenido</strong> de tus intenciones, porque nunca recibe las claves de cifrado. Lo que sí trata son los metadatos necesarios para entregar los mensajes: los identificadores de sala, los identificadores aleatorios de los participantes, el tamaño de los paquetes cifrados y las horas de conexión. El proveedor de alojamiento puede registrar, además, datos técnicos habituales de la conexión, como la dirección IP.</p>
 
-    <h2>4. Analíticas y rastreo</h2>
-    <p>No utilizamos herramientas de rastreo de terceros (como Google Analytics, rastreadores de anuncios, etc.) para monitorear el comportamiento de los usuarios dentro de la aplicación.</p>
+    <h2>4. Invitaciones y claves de cifrado</h2>
+    <p>Para unirse a una intención compartida hace falta una invitación (enlace o código QR) creada por un participante. La invitación incluye la clave de cifrado de esa intención, que viaja en el fragmento del enlace y no se envía a nuestros servidores web. <strong>Quien recibe una invitación puede leer y añadir datos a esa intención</strong>, así que compártela solo con las personas que quieras que participen.</p>
 
-    <h2>5. Cambios en esta Política de Privacidad</h2>
+    <h2>5. Copias de seguridad</h2>
+    <p>Arde permite exportar una copia de seguridad de tus datos como un archivo que se guarda en la carpeta que tú eliges. La copia no sale de tu dispositivo salvo que tú la muevas y, por diseño, <strong>no incluye las claves de cifrado</strong> de las intenciones compartidas.</p>
+
+    <h2>6. Analíticas y rastreo</h2>
+    <p>No utilizamos herramientas de analítica, publicidad ni rastreo de terceros (como Google Analytics o rastreadores de anuncios) para monitorizar el comportamiento de los usuarios dentro de la aplicación.</p>
+
+    <h2>7. Cambios en esta Política de Privacidad</h2>
     <p>Es posible que actualicemos nuestra Política de Privacidad de vez en cuando. Te notificaremos cualquier cambio publicando la nueva Política de Privacidad en esta página y actualizando la fecha de "Última actualización" en la parte superior.</p>
 
-    <h2>6. Contacto</h2>
+    <h2>8. Contacto</h2>
     <p>Si tienes alguna pregunta o sugerencia sobre nuestra Política de Privacidad, no dudes en ponerte en contacto a través de nuestro repositorio de GitHub en <a href="https://github.com/k1m3rA/Arde">https://github.com/k1m3rA/Arde</a>.</p>
 </body>
 </html>
